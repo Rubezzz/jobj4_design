@@ -1,4 +1,4 @@
-package assertj;
+package ru.job4j.assertj;
 
 import org.junit.jupiter.api.Test;
 
