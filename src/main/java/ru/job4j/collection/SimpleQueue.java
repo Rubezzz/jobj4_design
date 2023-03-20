@@ -6,33 +6,27 @@ public class SimpleQueue<T> {
 
     private final SimpleStack<T> in = new SimpleStack<>();
     private final SimpleStack<T> out = new SimpleStack<>();
-    int count = 0;
-    boolean inIsMain = true;
+    private int countIn = 0;
+    private int countOut = 0;
 
     public T poll() {
-        if (count == 0) {
+        if (countIn == 0 && countOut == 0) {
             throw new NoSuchElementException();
         }
-
-        for (int i = 0; i < count - 1; i++) {
-            if (inIsMain) {
+        if (countOut == 0) {
+            for (int i = 1; i < countIn; i++) {
                 out.push(in.pop());
-            } else {
-                in.push(out.pop());
+                countOut++;
             }
+            countIn = 0;
+            return in.pop();
         }
-        T result = inIsMain ? in.pop() : out.pop();
-        count--;
-        inIsMain = !inIsMain;
-        return result;
+        countOut--;
+        return out.pop();
     }
 
     public void push(T value) {
-        if (inIsMain) {
-            in.push(value);
-        } else {
-            out.push(value);
-        }
-        count++;
+        in.push(value);
+        countIn++;
     }
 }
