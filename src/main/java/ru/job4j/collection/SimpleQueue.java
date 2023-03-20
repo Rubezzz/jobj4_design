@@ -14,12 +14,11 @@ public class SimpleQueue<T> {
             throw new NoSuchElementException();
         }
         if (countOut == 0) {
-            for (int i = 1; i < countIn; i++) {
+            for (int i = 1; i <= countIn; i++) {
                 out.push(in.pop());
                 countOut++;
             }
             countIn = 0;
-            return in.pop();
         }
         countOut--;
         return out.pop();
