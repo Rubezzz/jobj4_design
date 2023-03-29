@@ -13,7 +13,7 @@ public class SimpleMap<K, V> implements Map<K, V> {
 
     @Override
     public boolean put(K key, V value) {
-        int index = key == null ? 0 : indexFor(hash(key.hashCode()));
+        int index = indexFor(key);
         boolean rsl = table[index] == null;
         if (rsl) {
             table[index] = new MapEntry<>(key, value);
@@ -34,6 +34,18 @@ public class SimpleMap<K, V> implements Map<K, V> {
         return (capacity - 1) & hash;
     }
 
+    private int indexFor(K key) {
+        return key == null ? 0 : indexFor(hash(key.hashCode()));
+    }
+
+    private boolean keyIsNotNull(MapEntry<K, V> entry) {
+        return entry != null && entry.key != null;
+    }
+
+    private boolean keysEquals(K key1, K key2) {
+        return key1.hashCode() == key2.hashCode() && key1.equals(key2);
+    }
+
     private void expand() {
         MapEntry<K, V>[] tmpTable = Arrays.copyOf(table, capacity);
         capacity *= 2;
@@ -50,13 +62,10 @@ public class SimpleMap<K, V> implements Map<K, V> {
     public V get(K key) {
         V rsl = null;
         if (key == null) {
-            rsl = table[0] != null && table[0].key == null ? table[0].value : null;
+            rsl = !keyIsNotNull(table[0]) ? table[0].value : null;
         } else {
-            MapEntry<K, V> entry = table[indexFor(hash(key.hashCode()))];
-            if (entry != null
-                && entry.key != null
-                && entry.key.hashCode() == key.hashCode()
-                && entry.key.equals(key)) {
+            MapEntry<K, V> entry = table[indexFor(key)];
+            if (keyIsNotNull(entry) && keysEquals(entry.key, key)) {
                 rsl = entry.value;
             }
         }
@@ -65,11 +74,9 @@ public class SimpleMap<K, V> implements Map<K, V> {
 
     @Override
     public boolean remove(K key) {
-        int index = key == null ? 0 : indexFor(hash(key.hashCode()));
-        boolean rsl = (index == 0 && table[index] != null && table[index].key == null)
-                      || (table[index] != null && table[index].key != null && key != null
-                          && key.hashCode() == table[index].key.hashCode()
-                          && key.equals(table[index].key));
+        int index = indexFor(key);
+        boolean rsl = (index == 0 && !keyIsNotNull(table[index]))
+                       || (keyIsNotNull(table[index]) && key != null && keysEquals(key, table[index].key));
         if (rsl) {
             table[index] = null;
             count--;
