@@ -19,7 +19,7 @@ public class SimpleMap<K, V> implements Map<K, V> {
             table[index] = new MapEntry<>(key, value);
             count++;
             modCount++;
-            if ((float) count / (float) capacity >= LOAD_FACTOR) {
+            if (count >= capacity * LOAD_FACTOR) {
                 expand();
             }
         }
@@ -38,45 +38,31 @@ public class SimpleMap<K, V> implements Map<K, V> {
         return key == null ? 0 : indexFor(hash(key.hashCode()));
     }
 
-    private boolean keyIsNotNull(MapEntry<K, V> entry) {
-        return entry != null && entry.key != null;
-    }
-
     private boolean keysEquals(K key1, K key2) {
-        return key1.hashCode() == key2.hashCode() && key1.equals(key2);
+        return Objects.hashCode(key1) == Objects.hashCode(key2) && Objects.equals(key1, key2);
     }
 
     private void expand() {
         MapEntry<K, V>[] tmpTable = Arrays.copyOf(table, capacity);
         capacity *= 2;
-        count = 0;
         table = new MapEntry[capacity];
         for (MapEntry<K, V> entry : tmpTable) {
             if (entry != null) {
-                put(entry.key, entry.value);
+                table[indexFor(entry.key)] = entry;
             }
         }
     }
 
     @Override
     public V get(K key) {
-        V rsl = null;
-        if (key == null) {
-            rsl = !keyIsNotNull(table[0]) ? table[0].value : null;
-        } else {
-            MapEntry<K, V> entry = table[indexFor(key)];
-            if (keyIsNotNull(entry) && keysEquals(entry.key, key)) {
-                rsl = entry.value;
-            }
-        }
-        return rsl;
+        MapEntry<K, V> entry = table[indexFor(key)];
+        return entry != null && keysEquals(entry.key, key) ? entry.value : null;
     }
 
     @Override
     public boolean remove(K key) {
         int index = indexFor(key);
-        boolean rsl = (index == 0 && !keyIsNotNull(table[index]))
-                       || (keyIsNotNull(table[index]) && key != null && keysEquals(key, table[index].key));
+        boolean rsl = table[index] != null && keysEquals(key, table[index].key);
         if (rsl) {
             table[index] = null;
             count--;
@@ -91,14 +77,16 @@ public class SimpleMap<K, V> implements Map<K, V> {
 
             private final int expectedModCount = modCount;
             private int index;
-            private int count;
 
             @Override
             public boolean hasNext() {
                 if (expectedModCount != modCount) {
                     throw new ConcurrentModificationException();
                 }
-                return index < capacity && this.count < SimpleMap.this.count;
+                while (index < capacity && table[index] == null) {
+                    index++;
+                }
+                return index < capacity;
             }
 
             @Override
@@ -106,12 +94,7 @@ public class SimpleMap<K, V> implements Map<K, V> {
                 if (!hasNext()) {
                     throw new NoSuchElementException();
                 }
-                MapEntry<K, V> entry = null;
-                while (entry == null && index < capacity) {
-                    entry = table[index++];
-                }
-                count++;
-                return entry.key;
+                return table[index++].key;
             }
         };
     }
