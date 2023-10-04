@@ -1,15 +1,12 @@
 package ru.job4j.io;
 
 import java.io.*;
-import java.util.ArrayList;
-import java.util.List;
 
 public class Analysis {
 
     public void unavailable(String source, String target) {
         String start = "";
         String end = "";
-        List<String> rsl = new ArrayList<>();
         try (BufferedReader in = new BufferedReader(new FileReader(source));
              BufferedWriter out = new BufferedWriter(new FileWriter(target))) {
             for (String line = in.readLine(); line != null; line = in.readLine()) {
@@ -21,13 +18,14 @@ public class Analysis {
                     end = split[1];
                 }
                 if (!start.isEmpty() && !end.isEmpty()) {
-                    rsl.add(start + ";" + end + ";");
+                    out.write(start);
+                    out.write(";");
+                    out.write(end);
+                    out.write(";");
+                    out.newLine();
                     start = "";
                     end = "";
                 }
-            }
-            for (String str: rsl) {
-                out.write(str + System.lineSeparator());
             }
         } catch (IOException e) {
             e.printStackTrace();
