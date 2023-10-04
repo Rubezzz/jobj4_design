@@ -14,10 +14,10 @@ public class Analysis {
              BufferedWriter out = new BufferedWriter(new FileWriter(target))) {
             for (String line = in.readLine(); line != null; line = in.readLine()) {
                 String[] split = line.trim().split(" ");
-                if (start.isEmpty() && "400".equals(split[0]) || "500".equals(split[0])) {
+                if (start.isEmpty() && ("400".equals(split[0]) || "500".equals(split[0]))) {
                     start = split[1];
                 }
-                if (!start.isEmpty() && "200".equals(split[0]) || "300".equals(split[0])) {
+                if (!start.isEmpty() && ("200".equals(split[0]) || "300".equals(split[0]))) {
                     end = split[1];
                 }
                 if (!start.isEmpty() && !end.isEmpty()) {
