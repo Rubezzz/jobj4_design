@@ -26,7 +26,14 @@ class ConfigTest {
     void whenPairWithException() {
         String path = "./data/pair_with_exception.properties";
         Config config = new Config(path);
-        assertThatThrownBy(config::load).isInstanceOf(IllegalArgumentException.class);
+        assertThatThrownBy(config::load).isInstanceOf(IllegalArgumentException.class).hasMessageContaining("key4=");
+    }
+
+    @Test
+    void whenPairWithException2() {
+        String path = "./data/pair_with_exception2.properties";
+        Config config = new Config(path);
+        assertThatThrownBy(config::load).isInstanceOf(IllegalArgumentException.class).hasMessageContaining("=value4");
     }
 
     @Test
