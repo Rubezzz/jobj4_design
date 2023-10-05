@@ -19,6 +19,7 @@ public class Analysis {
                 }
                 if (!start.isEmpty() && !end.isEmpty()) {
                     out.append(start).append(";").append(end).append(";");
+                    out.newLine();
                     start = "";
                     end = "";
                 }
