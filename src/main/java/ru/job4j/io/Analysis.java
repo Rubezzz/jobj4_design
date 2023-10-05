@@ -18,11 +18,7 @@ public class Analysis {
                     end = split[1];
                 }
                 if (!start.isEmpty() && !end.isEmpty()) {
-                    out.write(start);
-                    out.write(";");
-                    out.write(end);
-                    out.write(";");
-                    out.newLine();
+                    out.append(start).append(";").append(end).append(";");
                     start = "";
                     end = "";
                 }
