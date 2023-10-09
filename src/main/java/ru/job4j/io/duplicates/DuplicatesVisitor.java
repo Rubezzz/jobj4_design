@@ -19,10 +19,7 @@ public class DuplicatesVisitor extends SimpleFileVisitor<Path> {
     @Override
     public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) throws IOException {
         if (Files.isRegularFile(file)) {
-            FileProperty fileProperty = new FileProperty(file.toFile().length(), file.getFileName().toString());
-            List<Path> list = allPaths.containsKey(fileProperty) ? allPaths.get(fileProperty) : new ArrayList<>();
-            list.add(file);
-            allPaths.put(fileProperty, list);
+            allPaths.computeIfAbsent(new FileProperty(file.toFile().length(), file.getFileName().toString()), k -> new ArrayList<>()).add(file);
         }
         duplicates = allPaths.values().stream().filter(e -> e.size() >= 2).flatMap(List::stream).toList();
         return super.visitFile(file, attrs);
