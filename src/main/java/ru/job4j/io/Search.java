@@ -22,11 +22,17 @@ public class Search {
     }
 
     private static void validate(String[] arg) {
-        if (arg.length == 0) {
-            throw new IllegalArgumentException("Root folder and filter is null.");
+        if (arg.length != 2) {
+            throw new IllegalArgumentException("Invalid number of startup arguments.");
         }
-        if (arg.length == 1) {
-            throw new IllegalArgumentException("Filter is null.");
+        if (arg[0].isEmpty()) {
+            throw new IllegalArgumentException("Folder argument is empty.");
+        }
+        if (arg[1].isEmpty()) {
+            throw new IllegalArgumentException("Filter argument is empty.");
+        }
+        if (!arg[1].matches("^\\.[a-zA-Z]+$")) {
+            throw new IllegalArgumentException("Invalid filter argument. Example \".js\"");
         }
     }
 }
