@@ -25,8 +25,8 @@ public class Search {
         if (arg.length != 2) {
             throw new IllegalArgumentException("Invalid number of startup arguments.");
         }
-        if (!arg[0].matches("^[.\\w-\\\\]+$")) {
-            throw new IllegalArgumentException("Invalid folder argument.");
+        if (!Files.isDirectory(Path.of(arg[0]))) {
+            throw new IllegalArgumentException("Invalid folder argument. Folder is not exist.");
         }
         if (!arg[1].matches("^.[a-zA-Z1-9]+$")) {
             throw new IllegalArgumentException("Invalid filter argument. Example \".js\"");
