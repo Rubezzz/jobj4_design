@@ -25,13 +25,10 @@ public class Search {
         if (arg.length != 2) {
             throw new IllegalArgumentException("Invalid number of startup arguments.");
         }
-        if (arg[0].isEmpty()) {
-            throw new IllegalArgumentException("Folder argument is empty.");
+        if (!arg[0].matches("^[.\\w-\\\\]+$")) {
+            throw new IllegalArgumentException("Invalid folder argument.");
         }
-        if (arg[1].isEmpty()) {
-            throw new IllegalArgumentException("Filter argument is empty.");
-        }
-        if (!arg[1].matches("^\\.[a-zA-Z]+$")) {
+        if (!arg[1].matches("^.[a-zA-Z1-9]+$")) {
             throw new IllegalArgumentException("Invalid filter argument. Example \".js\"");
         }
     }
