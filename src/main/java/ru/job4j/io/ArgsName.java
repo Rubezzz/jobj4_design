@@ -9,7 +9,7 @@ public class ArgsName {
 
     public String get(String key) {
         if (!values.containsKey(key)) {
-            throw new IllegalArgumentException("This key: '" + key + "' is missing");
+            throw new IllegalArgumentException(String.format("This key: '%s' is missing", key));
         }
         return values.get(key);
     }
@@ -34,16 +34,16 @@ public class ArgsName {
         }
         for (String arg : args) {
             if (!arg.contains("=")) {
-                throw new IllegalArgumentException("Error: This argument '" + arg + "' does not contain an equal sign");
+                throw new IllegalArgumentException(String.format("Error: This argument '%s' does not contain an equal sign", arg));
             }
             if (arg.charAt(0) != '-') {
-                throw new IllegalArgumentException("Error: This argument '" + arg + "' does not start with a '-' character");
+                throw new IllegalArgumentException(String.format("Error: This argument '%s' does not start with a '-' character", arg));
             }
             if (arg.startsWith("-=")) {
-                throw new IllegalArgumentException("Error: This argument '" + arg + "' does not contain a key");
+                throw new IllegalArgumentException(String.format("Error: This argument '%s' does not contain a key", arg));
             }
             if (arg.split("=", 2)[1].isEmpty()) {
-                throw new IllegalArgumentException("Error: This argument '" + arg + "' does not contain a value");
+                throw new IllegalArgumentException(String.format("Error: This argument '%s' does not contain a value", arg));
             }
         }
     }
