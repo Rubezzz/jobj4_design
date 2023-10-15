@@ -18,7 +18,6 @@ public class EchoServer {
                         if (i == 0 && str.matches("^GET /\\?msg=Bye\\b.*")) {
                             server.close();
                         }
-                        System.out.println(i);
                         System.out.println(str);
                     }
                     out.flush();
