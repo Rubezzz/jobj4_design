@@ -13,9 +13,12 @@ public class EchoServer {
                      BufferedReader in = new BufferedReader(
                              new InputStreamReader(socket.getInputStream()))) {
                     out.write("HTTP/1.1 200 OK\r\n\r\n".getBytes());
-                    if (in.readLine().matches("^GET /\\?msg=Bye\\b.*")) {
+                    String line = in.readLine();
+                    if (line.matches("^GET /\\?msg=Exit\\b.*")) {
                         server.close();
                     }
+                    String outMsg = line.matches("^GET /\\?msg=Hello\\b.*") ? "Hello" : "What";
+                    out.write(outMsg.getBytes());
                     out.flush();
                 }
             }
