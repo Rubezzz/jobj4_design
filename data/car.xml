@@ -1,0 +1,8 @@
+<?xml version="1.1" encoding="UTF-8" ?>
+<car isWorking="true" model="Audi" year="2006">
+    <parameters>
+        <parametr>150</parametr>
+        <parametr>Black</parametr>
+    </parameters>
+    <owner firstName="Ivan" lastName="Ivanov"/>
+</car>
