@@ -18,6 +18,26 @@ public class Car {
         this.owner = owner;
     }
 
+    public boolean isWorking() {
+        return isWorking;
+    }
+
+    public String getModel() {
+        return model;
+    }
+
+    public int getYear() {
+        return year;
+    }
+
+    public String[] getParameters() {
+        return parameters;
+    }
+
+    public Owner getOwner() {
+        return owner;
+    }
+
     @Override
     public String toString() {
         return "Car{"
