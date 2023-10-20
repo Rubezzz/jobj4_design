@@ -37,3 +37,15 @@ create table phone(
      house_id int references house(id),
      owner_id int references owner(id)
  );
+
+ create table mather(
+    id serial primary key,
+    name varchar(255)
+);
+create table children(
+    id serial primary key,
+    name varchar(255),
+	mather_id int references mather(id)
+);
+
+
