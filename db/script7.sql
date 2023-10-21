@@ -35,4 +35,4 @@ select d.name from departments d left join employees e on e.departments_id = d.i
 select d.name "Департамент", e.name "Работник" from employees e left join departments d on e.departments_id = d.id; 
 select d.name "Департамент", e.name "Работник" from departments d right join employees e on e.departments_id = d.id; 
 
-select t1.name, t2.name from teens t1 cross join teens t2 where t1.gender != t2.gender;
+select t1.name, t2.name from teens t1 cross join teens t2 where t1.gender != t2.gender and t1.id > t2.id;
