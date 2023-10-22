@@ -39,16 +39,14 @@ create or replace function tax2()
     returns trigger as
 $$
     BEGIN
-        update products2
-        set price = price + price * 0.13
-        where id = new.id;
+		new.price = new.price + new.price * 0.13;
         return NEW;
     END;
 $$
-LANGUAGE 'plpgsql';	
+LANGUAGE 'plpgsql';
 
 create trigger tax_trigger2
-    after insert
+    before insert
     on products2
     for each row
     execute procedure tax2();
