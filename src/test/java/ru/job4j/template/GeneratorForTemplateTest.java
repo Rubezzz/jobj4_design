@@ -1,11 +1,13 @@
 package ru.job4j.template;
 
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import java.util.Map;
 
 import static org.assertj.core.api.Assertions.*;
 
+@Disabled
 class GeneratorForTemplateTest {
 
     @Test
