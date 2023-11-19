@@ -15,6 +15,12 @@ public class ControlQuality {
         this.stores = stores;
     }
 
+    public void resort() {
+        List<Food> tempList = stores.stream().flatMap(s -> s.getAll().stream()).toList();
+        stores.clear();
+        tempList.forEach(this::add);
+    }
+
     public void add(Food food) {
         int percent = expiration(food);
         if (percent < 25) {
