@@ -8,5 +8,5 @@ public interface Parking {
 
     void remove(Car car);
 
-    List<Car> listAllCar();
+    List<ParkingSpace> listAllSpace();
 }
