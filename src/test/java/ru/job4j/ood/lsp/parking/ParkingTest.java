@@ -24,6 +24,7 @@ class ParkingTest {
                 new SmallSpace(),
                 new BigSpace(bigCar)
         );
-        assertThat(parking.listAllSpace()).isEqualTo(expect);
+        List<ParkingSpace> result = parking.listAllSpace();
+        assertThat(result).isEqualTo(expect);
     }
 }
